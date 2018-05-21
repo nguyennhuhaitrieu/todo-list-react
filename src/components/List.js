@@ -8,7 +8,6 @@ class List extends Component {
 
     };
 
-    //console.log(this.props.items);
   }
 
   render() {
