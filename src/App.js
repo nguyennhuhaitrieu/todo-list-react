@@ -55,7 +55,6 @@ class App extends Component {
     let isShowForm = this.state.isShowForm;
     let eleForm = null;
 
-
     if(isShowForm) {
       eleForm = <Form  onClickCancel= { this.handleCancelSubmit }/>
     }
