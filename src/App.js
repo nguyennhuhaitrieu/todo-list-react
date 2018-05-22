@@ -62,16 +62,12 @@ class App extends Component {
     return (
       <div>
         <Title />
-
         <Control 
             onClickAdd = { this.handleToggleForm}
             isShowForm= { isShowForm }
         />
-
         { eleForm }
-
         <List itemTodo = {itemList}/>
-
       </div>
     );
   }
