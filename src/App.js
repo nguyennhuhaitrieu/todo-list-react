@@ -18,7 +18,7 @@ class App extends Component {
         {
           id: '2',
           name: 'Reactjs',
-          level: '1'
+          level: '2'
         }, 
         {
           id: '3',
@@ -28,21 +28,47 @@ class App extends Component {
         {
           id: '4',
           name: 'Vuejs',
-          level: '0'
+          level: '1'
         }
-      ]
+      ],
+      isShowForm: false,
     };
+
+    this.handleToggleForm= this.handleToggleForm.bind(this);
+    this.handleCancelSubmit = this.handleCancelSubmit.bind(this);
+  }
+
+  handleToggleForm() {
+    this.setState({
+      isShowForm: !this.state.isShowForm
+    })
+  }
+
+  handleCancelSubmit() {
+    this.setState({
+      isShowForm: false
+    })
   }
 
   render() {
     let itemList = this.state.items;
+    let isShowForm = this.state.isShowForm;
+    let eleForm = null;
+
+
+    if(isShowForm) {
+      eleForm = <Form  onClickCancel= { this.handleCancelSubmit }/>
+    }
     return (
       <div>
         <Title />
 
-        <Control />
+        <Control 
+            onClickAdd = { this.handleToggleForm}
+            isShowForm= { isShowForm }
+        />
 
-        <Form />
+        { eleForm }
 
         <List itemTodo = {itemList}/>
 
