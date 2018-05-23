@@ -18,8 +18,6 @@ class Control extends Component {
     this.props.onClickAdd();
   }
   render() {
-    //console.log(this.props.isShowForm);
-
     let elmButton  = <button onClick= { this.handleAdd } type="button" className="btn btn-info btn-block">Add Task</button>
     if(this.props.isShowForm === true) {
       elmButton= <button onClick= { this.handleAdd } type="button" className="btn btn-success btn-block">Close Form</button>
@@ -27,7 +25,7 @@ class Control extends Component {
 
     return (
         <div className="row">
-          <Search />
+          <Search onClickGo = {this.props.onClickSearchGo}/>
           <Sort /> 
           <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">
             { elmButton }

@@ -3,6 +3,7 @@ import Title from './components/Title';
 import Control from './components/Control';
 import Form from './components/Form';
 import List from './components/List';
+import {filter, includes} from 'lodash';
 
 class App extends Component {
   constructor(props) {
@@ -32,10 +33,12 @@ class App extends Component {
         }
       ],
       isShowForm: false,
+      strSearch: '', 
     };
 
-    this.handleToggleForm= this.handleToggleForm.bind(this);
+    this.handleToggleForm   = this.handleToggleForm.bind(this);
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this);
+    this.handleSearch       = this.handleSearch.bind(this);
   }
 
   handleToggleForm() {
@@ -50,10 +53,36 @@ class App extends Component {
     })
   }
 
+  handleSearch(value) {
+    this.setState({
+      strSearch: value
+    })
+  }
+
   render() {
-    let itemList = this.state.items;
+    let itemOrigin = this.state.items;
+    let itemList = [];
     let isShowForm = this.state.isShowForm;
     let eleForm = null;
+    let search = this.state.strSearch;
+
+    /* viet js thuan
+    if(search.length>0) {
+      itemOrigin.forEach ((item)=>{
+        if(item.name.toLowerCase().indexOf(search) !==-1) {
+          itemList.push(item);
+        }
+      });
+    } else {
+      itemList = itemOrigin;
+    }
+    */
+
+    // su dung thu vien loash 
+    itemList = filter(itemOrigin, (item) =>{
+    return includes(item.name, search);
+    });
+
 
     if(isShowForm) {
       eleForm = <Form  onClickCancel= { this.handleCancelSubmit }/>
@@ -62,8 +91,10 @@ class App extends Component {
       <div>
         <Title />
         <Control 
+            onClickSearchGo = { this.handleSearch}
             onClickAdd = { this.handleToggleForm}
             isShowForm= { isShowForm }
+
         />
         { eleForm }
         <List itemTodo = {itemList}/>
