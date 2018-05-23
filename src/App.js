@@ -78,6 +78,9 @@ class App extends Component {
       return item.id === id
     });
 
+    //console.log(items);
+    //console.log(this.state.items);
+
     this.setState({
       items: items
     })
