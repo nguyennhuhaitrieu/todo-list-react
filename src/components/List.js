@@ -14,7 +14,7 @@ class List extends Component {
     let items = this.props.itemTodo;
     let eleItem = items.map((item, index) => {
         return (
-            <Item key={ index } item = {item} indexNumber = {index}/>
+            <Item onClickDelete ={this.props.onClickDelete} key={ index } item = {item} indexNumber = {index}/>
         )
     });
     return (

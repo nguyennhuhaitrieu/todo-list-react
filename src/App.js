@@ -3,7 +3,7 @@ import Title from './components/Title';
 import Control from './components/Control';
 import Form from './components/Form';
 import List from './components/List';
-import { filter, includes, orderBy as funcOrderBy } from 'lodash';
+import { filter, includes, orderBy as funcOrderBy, remove } from 'lodash';
 
 class App extends Component {
   constructor(props) {
@@ -32,6 +32,7 @@ class App extends Component {
           level: '1'
         }
       ],
+
       isShowForm : false,
       strSearch  : '',
       orderBy    : 'name',
@@ -42,6 +43,7 @@ class App extends Component {
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this);
     this.handleSearch       = this.handleSearch.bind(this);
     this.handleSort         = this.handleSort.bind(this);
+    this.handleDelete       = this.handleDelete.bind(this);
   }
 
   handleToggleForm() {
@@ -66,6 +68,18 @@ class App extends Component {
     this.setState({
       orderBy: orderBy,
       orderDir: orderDir
+    })
+  }
+
+  handleDelete(id) {
+    //console.log(id);
+    let items = this.state.items;
+    remove(items, (item)=> {
+      return item.id === id
+    });
+
+    this.setState({
+      items: items
     })
   }
 
@@ -94,9 +108,7 @@ class App extends Component {
       return includes(item.name.toLowerCase(), search);
     });
 
-
     itemList = funcOrderBy(itemList, [orderBy], [orderDir]);
-
 
     if(isShowForm) {
       eleForm = <Form  onClickCancel= { this.handleCancelSubmit }/>
@@ -113,7 +125,10 @@ class App extends Component {
             onClickSort = {this.handleSort}
         />
         { eleForm }
-        <List itemTodo = {itemList}/>
+        <List 
+          itemTodo = {itemList}
+          onClickDelete = {this.handleDelete}
+        />
       </div>
     );
   }
