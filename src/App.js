@@ -3,7 +3,7 @@ import Title from './components/Title';
 import Control from './components/Control';
 import Form from './components/Form';
 import List from './components/List';
-import {filter, includes} from 'lodash';
+import { filter, includes, orderBy as funcOrderBy } from 'lodash';
 
 class App extends Component {
   constructor(props) {
@@ -32,13 +32,16 @@ class App extends Component {
           level: '1'
         }
       ],
-      isShowForm: false,
-      strSearch: '', 
+      isShowForm : false,
+      strSearch  : '',
+      orderBy    : 'name',
+      orderDir   : 'asc'
     };
 
     this.handleToggleForm   = this.handleToggleForm.bind(this);
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this);
     this.handleSearch       = this.handleSearch.bind(this);
+    this.handleSort         = this.handleSort.bind(this);
   }
 
   handleToggleForm() {
@@ -59,12 +62,20 @@ class App extends Component {
     })
   }
 
+  handleSort(orderBy, orderDir) {
+    this.setState({
+      orderBy: orderBy,
+      orderDir: orderDir
+    })
+  }
+
   render() {
     let itemOrigin = this.state.items;
     let itemList = [];
     let isShowForm = this.state.isShowForm;
     let eleForm = null;
     let search = this.state.strSearch;
+    let { orderBy, orderDir } = this.state;
 
     /* viet js thuan
     if(search.length>0) {
@@ -80,8 +91,11 @@ class App extends Component {
 
     // su dung thu vien loash 
     itemList = filter(itemOrigin, (item) =>{
-    return includes(item.name, search);
+      return includes(item.name.toLowerCase(), search);
     });
+
+
+    itemList = funcOrderBy(itemList, [orderBy], [orderDir]);
 
 
     if(isShowForm) {
@@ -94,7 +108,9 @@ class App extends Component {
             onClickSearchGo = { this.handleSearch}
             onClickAdd = { this.handleToggleForm}
             isShowForm= { isShowForm }
-
+            orderBy = {orderBy}
+            orderDir = {orderDir}
+            onClickSort = {this.handleSort}
         />
         { eleForm }
         <List itemTodo = {itemList}/>
