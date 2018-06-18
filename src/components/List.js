@@ -12,6 +12,7 @@ class List extends Component {
 
   render() {
     let items = this.props.itemTodo;
+    //console.log(items);
     let eleItem = items.map((item, index) => {
         return (
             <Item onClickDelete ={this.props.onClickDelete} key={ index } item = {item} indexNumber = {index}/>

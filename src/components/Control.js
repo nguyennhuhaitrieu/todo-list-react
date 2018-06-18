@@ -17,6 +17,7 @@ class Control extends Component {
   handleAdd () {
     this.props.onClickAdd();
   }
+  
   render() {
     let { orderBy, orderDir } = this.props;
 

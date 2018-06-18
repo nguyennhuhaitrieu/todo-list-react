@@ -44,6 +44,7 @@ class App extends Component {
     this.handleSearch       = this.handleSearch.bind(this);
     this.handleSort         = this.handleSort.bind(this);
     this.handleDelete       = this.handleDelete.bind(this);
+    this.handleSubmit       = this.handleSubmit.bind(this);
   }
 
   handleToggleForm() {
@@ -86,6 +87,21 @@ class App extends Component {
     })
   }
 
+  handleSubmit(item){
+    console.log(item);
+    let itemsAdd  = this.state.items;
+    itemsAdd.push({
+      name: item.name,
+      level: item.level
+    })
+
+    this.setState({
+      items: itemsAdd,
+      isShowForm : false
+    })
+  }
+
+
   render() {
     let itemOrigin = this.state.items;
     let itemList = [];
@@ -114,7 +130,7 @@ class App extends Component {
     itemList = funcOrderBy(itemList, [orderBy], [orderDir]);
 
     if(isShowForm) {
-      eleForm = <Form  onClickCancel= { this.handleCancelSubmit }/>
+      eleForm = <Form  onClickSubmit= {this.handleSubmit} onClickCancel= { this.handleCancelSubmit }/>
     }
     return (
       <div>
