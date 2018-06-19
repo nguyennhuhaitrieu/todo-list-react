@@ -7,12 +7,40 @@ class Form extends Component {
 
     this.state = {
       task_name: '',
-      task_level: 0
+      task_level: 0,
+      task_id: ''
     };
 
     this.handleCancle = this.handleCancle.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    //console.log(this.props.itemSelected);
+  }
+
+
+  componentWillMount() {
+    let item  = this.props.itemSelected;
+    if(item !== null) {
+      this.setState({
+        task_id: item.id,
+        task_name: item.name,
+        task_level: item.level
+      })
+    }
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+
+    let item = nextProps.itemSelected;
+    if(nextProps !== null) {
+      this.setState({
+        task_id: item.id,
+        task_name: item.name,
+        task_level: item.level
+      })
+    }
   }
 
   handleChange(event) {
@@ -28,11 +56,12 @@ class Form extends Component {
 
   handleSubmit(event) {
     let item = {
+      id: this.state.task_id,
       name: this.state.task_name,
       level: this.state.task_level
     }
-    this.props.onClickSubmit(item);
 
+    this.props.onClickSubmit(item);
     event.preventDefault();
   }
 

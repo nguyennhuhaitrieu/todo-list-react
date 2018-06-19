@@ -30,13 +30,19 @@ class App extends Component {
           id: '4',
           name: 'Vuejs',
           level: '1'
-        }
+        },
+        {
+          id: '5',
+          name: 'PHP - Laravel',
+          level: '2'
+        }, 
       ],
 
-      isShowForm : false,
-      strSearch  : '',
-      orderBy    : 'name',
-      orderDir   : 'asc'
+      isShowForm   : false,
+      strSearch    : '',
+      orderBy      : 'name',
+      orderDir     : 'asc',
+      itemSelected : null
     };
 
     this.handleToggleForm   = this.handleToggleForm.bind(this);
@@ -45,11 +51,13 @@ class App extends Component {
     this.handleSort         = this.handleSort.bind(this);
     this.handleDelete       = this.handleDelete.bind(this);
     this.handleSubmit       = this.handleSubmit.bind(this);
+    this.handleEdit         = this.handleEdit.bind(this);
   }
 
   handleToggleForm() {
     this.setState({
-      isShowForm: !this.state.isShowForm
+      isShowForm: !this.state.isShowForm,
+      itemSelected: null
     })
   }
 
@@ -88,16 +96,38 @@ class App extends Component {
   }
 
   handleSubmit(item){
-    console.log(item);
-    let itemsAdd  = this.state.items;
-    itemsAdd.push({
-      name: item.name,
-      level: item.level
-    })
+    let { items }= this.state;
+    //console.log(item);
 
+    if(item.id !== '') {
+      //console.log('edit');
+
+      items.forEach((elm,key) => {
+        if(elm.id === item.id) {
+          items[key].name = item.name;
+          items[key].level = item.level
+        }
+      });
+
+    } else {
+      //console.log('add');
+      items.push({
+        name: item.name,
+        level: item.level
+      });
+    }
+   
     this.setState({
-      items: itemsAdd,
+      items: items,
       isShowForm : false
+    })
+  }
+
+  handleEdit(item) {
+    //console.log(item);
+    this.setState({
+      itemSelected: item,
+      isShowForm   : true,
     })
   }
 
@@ -108,7 +138,7 @@ class App extends Component {
     let isShowForm = this.state.isShowForm;
     let eleForm = null;
     let search = this.state.strSearch;
-    let { orderBy, orderDir } = this.state;
+    let { orderBy, orderDir, itemSelected } = this.state;
 
     /* viet js thuan
     if(search.length>0) {
@@ -130,7 +160,7 @@ class App extends Component {
     itemList = funcOrderBy(itemList, [orderBy], [orderDir]);
 
     if(isShowForm) {
-      eleForm = <Form  onClickSubmit= {this.handleSubmit} onClickCancel= { this.handleCancelSubmit }/>
+      eleForm = <Form itemSelected={ itemSelected } onClickSubmit= {this.handleSubmit} onClickCancel= { this.handleCancelSubmit }/>
     }
     return (
       <div>
@@ -147,6 +177,7 @@ class App extends Component {
         <List 
           itemTodo = {itemList}
           onClickDelete = {this.handleDelete}
+          onClickEdit = {this.handleEdit}
         />
       </div>
     );
