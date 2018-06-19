@@ -17,7 +17,6 @@ class Form extends Component {
     //console.log(this.props.itemSelected);
   }
 
-
   componentWillMount() {
     let item  = this.props.itemSelected;
     if(item !== null) {
@@ -29,10 +28,8 @@ class Form extends Component {
     }
   }
 
-
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
-
     let item = nextProps.itemSelected;
     if(nextProps !== null) {
       this.setState({
