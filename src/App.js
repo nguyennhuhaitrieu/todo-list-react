@@ -5,6 +5,8 @@ import Form from './components/Form';
 import List from './components/List';
 import { filter, includes, orderBy as funcOrderBy, remove, reject } from 'lodash';
 
+import tasks from './mock/tasks'
+
 const uuidv4 = require('uuid/v4');
 
 class App extends Component {
@@ -87,16 +89,19 @@ class App extends Component {
 
     if(item.id !== '') {
       items = reject(items, {id: item.id});
-      id: item.id
+      items.push({
+        id: item.id,
+        name: item.name,
+        level: item.level
+      })
       
     } else {
-        id= uuidv4()
+      items.push({
+        id: uuidv4(),
+        name: item.name,
+        level: item.level
+      })
     }
-
-    items.push({
-      name: item.name,
-      level: item.level
-    })
 
     this.setState({
       items: items,

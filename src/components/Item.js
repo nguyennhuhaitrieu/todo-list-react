@@ -39,7 +39,7 @@ class Item extends Component {
       let item  = this.props.item;
       let levelCustom = item.level;
       let numberList = this.props.indexNumber;
-      //console.log(item);
+      console.log(item);
       return (
         <tr>
           <td className="text-center">{ numberList +1 }</td>
