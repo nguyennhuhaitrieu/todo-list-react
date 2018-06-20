@@ -3,10 +3,8 @@ import Title from './components/Title';
 import Control from './components/Control';
 import Form from './components/Form';
 import List from './components/List';
-import tasks from './mock/tasks';
-
 import { filter, includes, orderBy as funcOrderBy, remove, reject } from 'lodash';
-import { rejects } from 'assert';
+
 const uuidv4 = require('uuid/v4');
 
 class App extends Component {
@@ -83,25 +81,22 @@ class App extends Component {
   }
 
   handleSubmit(item){
-    let { items }= this.state;
+    let { items } = this.state;
     let id = null ;
     //console.log(item);
 
     if(item.id !== '') {
       items = reject(items, {id: item.id});
-      items.push({
-        id: item.id,
-        name: item.name,
-        level: item.level
-      });
-
+      id: item.id
+      
     } else {
-      items.push({
-        id: uuidv4(),
-        name: item.name,
-        level: item.level
-      });
+        id= uuidv4()
     }
+
+    items.push({
+      name: item.name,
+      level: item.level
+    })
 
     this.setState({
       items: items,
