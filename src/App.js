@@ -10,34 +10,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      items: [
-        {
-          id: '1',
-          name: 'Angular',
-          level: '0'
-        },
-        {
-          id: '2',
-          name: 'Reactjs',
-          level: '2'
-        }, 
-        {
-          id: '3',
-          name: 'Nodejs',
-          level: '0'
-        },
-        {
-          id: '4',
-          name: 'Vuejs',
-          level: '1'
-        },
-        {
-          id: '5',
-          name: 'PHP - Laravel',
-          level: '2'
-        }, 
-      ],
-
+      items        : [],
       isShowForm   : false,
       strSearch    : '',
       orderBy      : 'name',
@@ -52,6 +25,14 @@ class App extends Component {
     this.handleDelete       = this.handleDelete.bind(this);
     this.handleSubmit       = this.handleSubmit.bind(this);
     this.handleEdit         = this.handleEdit.bind(this);
+  }
+
+
+  componentWillMount() {
+    let items = JSON.parse(localStorage.getItem('tasks'));
+    this.setState({
+      items: items,
+    })
   }
 
   handleToggleForm() {
@@ -93,6 +74,8 @@ class App extends Component {
     this.setState({
       items: items
     })
+
+    localStorage.setItem('tasks',JSON.stringify(items));
   }
 
   handleSubmit(item){
@@ -121,6 +104,8 @@ class App extends Component {
       items: items,
       isShowForm : false
     })
+
+    localStorage.setItem('tasks',JSON.stringify(items));
   }
 
   handleEdit(item) {
