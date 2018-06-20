@@ -35,7 +35,7 @@ class App extends Component {
   componentWillMount() {
     let items = JSON.parse(localStorage.getItem('task',items));
     this.setState({
-      items: items
+      items: tasks
     })
   }
 
