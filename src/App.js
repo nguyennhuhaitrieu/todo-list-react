@@ -3,7 +3,11 @@ import Title from './components/Title';
 import Control from './components/Control';
 import Form from './components/Form';
 import List from './components/List';
-import { filter, includes, orderBy as funcOrderBy, remove } from 'lodash';
+import tasks from './mock/tasks';
+
+import { filter, includes, orderBy as funcOrderBy, remove, reject } from 'lodash';
+import { rejects } from 'assert';
+const uuidv4 = require('uuid/v4');
 
 class App extends Component {
   constructor(props) {
@@ -29,9 +33,9 @@ class App extends Component {
 
 
   componentWillMount() {
-    let items = JSON.parse(localStorage.getItem('tasks'));
+    let items = JSON.parse(localStorage.getItem('task',items));
     this.setState({
-      items: items,
+      items: items
     })
   }
 
@@ -62,7 +66,7 @@ class App extends Component {
   }
 
   handleDelete(id) {
-    //console.log(id);
+    console.log(id);
     let items = this.state.items;
     remove(items, (item)=> {
       return item.id === id
@@ -75,37 +79,36 @@ class App extends Component {
       items: items
     })
 
-    localStorage.setItem('tasks',JSON.stringify(items));
+    localStorage.setItem('task',JSON.stringify(items));
   }
 
   handleSubmit(item){
     let { items }= this.state;
+    let id = null ;
     //console.log(item);
 
     if(item.id !== '') {
-      //console.log('edit');
-
-      items.forEach((elm,key) => {
-        if(elm.id === item.id) {
-          items[key].name = item.name;
-          items[key].level = item.level
-        }
+      items = reject(items, {id: item.id});
+      items.push({
+        id: item.id,
+        name: item.name,
+        level: item.level
       });
 
     } else {
-      //console.log('add');
       items.push({
+        id: uuidv4(),
         name: item.name,
         level: item.level
       });
     }
-   
+
     this.setState({
       items: items,
       isShowForm : false
     })
 
-    localStorage.setItem('tasks',JSON.stringify(items));
+    localStorage.setItem('task', JSON.stringify(items));
   }
 
   handleEdit(item) {
