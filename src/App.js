@@ -34,9 +34,14 @@ class App extends Component {
 
   componentWillMount() {
     let items = JSON.parse(localStorage.getItem('task',items));
-    this.setState({
-      items: tasks
-    })
+    if(items === null ) {
+      items= localStorage.setItem('task','null');
+      items= localStorage.getItem('task');
+    } else {
+      this.setState({
+        items: items
+      })
+    }
   }
 
   handleToggleForm() {
